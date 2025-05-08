@@ -36,6 +36,7 @@ public class UserController {
 
 
     @PostMapping("/join")
+    // x-www-form / key=value&key=value&key=value -> JoinDTO가 받는 거, @RequestBody를 붙이는 이유 : 클라이언트가 전송한 JSON 데이터를 자바 객체로 변환해주기 위해서
     public @ResponseBody Resp<?> join(@Valid @RequestBody UserRequest.JoinDTO reqDTO, Errors errors) {
         UserResponse.DTO respDTO = userService.회원가입(reqDTO);
         return Resp.ok(respDTO);

@@ -23,7 +23,7 @@ public class UserService {
     @Transactional
     public UserResponse.DTO 회원가입(UserRequest.JoinDTO reqDTO) {
         try {
-            String encPassword = BCrypt.hashpw(reqDTO.getPassword(), BCrypt.gensalt());
+            String encPassword = BCrypt.hashpw(reqDTO.getPassword(), BCrypt.gensalt()); // Bcrypt : 해시의 다른 종류 느낌
             reqDTO.setPassword(encPassword);
 
             User userPS = userRepository.save(reqDTO.toEntity());
@@ -43,8 +43,12 @@ public class UserService {
 
         if (!isSame) throw new ExceptionApi401("유저네임 혹은 비밀번호가 틀렸습니다.");
 
-        // 토큰 생성
-        String accessToken = JwtUtil.create(userPS);
+        // 토큰 생성 (동일하면 토큰을 만들어서 받음)
+        String accessToken = JwtUtil.create(userPS); // 액세스 토큰이 있으면 -> 데이터를 줌, 없으면 안 줌
+        String RefreshToken = JwtUtil.create(userPS); // 리플래시 토큰
+
+        // DB에 Device 서명값(LoginDTO), IP(request), User-Agent(request), RefreshToken(만든거 사용)을 받아야함
+
 
         return UserResponse.TokenDTO.builder().accessToken(accessToken).build();
     }

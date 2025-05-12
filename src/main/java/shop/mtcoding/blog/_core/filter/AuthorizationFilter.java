@@ -21,10 +21,11 @@ public class AuthorizationFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
 
-        String accessToken = request.getHeader("Authorization");
+        String accessToken = request.getHeader("Authorization"); // request.getParameter 쿼리 스트링 꺼냄
 
         try {
-            if (accessToken == null || accessToken.isBlank()) throw new RuntimeException("토큰을 전달해주세요");
+            if (accessToken == null || accessToken.isBlank())
+                throw new RuntimeException("토큰을 전달해주세요"); // 런타임익섹셥 터뜨려서 catch 함
             if (!accessToken.startsWith("Bearer ")) throw new RuntimeException("Bearer 프로토콜 지켜야지 짜식아");
 
             accessToken = accessToken.replace("Bearer ", "");

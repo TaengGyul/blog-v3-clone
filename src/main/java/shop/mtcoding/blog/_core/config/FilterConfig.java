@@ -17,7 +17,7 @@ public class FilterConfig {
     @Bean
     public FilterRegistrationBean<AuthorizationFilter> authorizationFilter() {
         FilterRegistrationBean<AuthorizationFilter> registrationBean = new FilterRegistrationBean<>();
-        registrationBean.setFilter(new AuthorizationFilter());
+        registrationBean.setFilter(new AuthorizationFilter()); // 인가 필터
         registrationBean.addUrlPatterns("/s/*"); // 모든 요청에 적용
         registrationBean.setOrder(2); // 필터 순서 설정
         return registrationBean;
